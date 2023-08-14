@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="view_hr_upload_file_time_clock_wizard_form" model="ir.ui.view">
+            <field name="name">view.hr.upload.file.time.clock.wizard.form</field>
+            <field name="model">hr.upload.file.time.clock.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Importar archivo">
+                    <group>
+                        <group>
+                            <field name="upload_file" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="checador_id"/>
+                            <field name="adicionar_horas" options="{'type':'number', 'step':1}"/>
+                        </group>
+                        <group></group>
+                    </group>
+                    <footer>
+                        <button name="import_file_time_clock" type="object" string="Importar fichero" class="oe_right oe_highlight"/>
+                        <button special="cancel" string="Cancelar" class="oe_right"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para abrir Wizard subir archivo checador ZK  -->
+        <record id="hr_upload_file_time_clock_open_wizard_1" model="ir.actions.act_window">
+            <field name="name">Importar archivo .dat</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.upload.file.time.clock.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_hr_upload_file_time_clock_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Elementos de menú para modulo hr_ausencias_ctt -->
+
+        <!-- Menú vertical ZK Checador/Eventos checador -->
+        <menuitem id="menu_vertical_subir_fichero_1"
+                  name="Importar fichero"
+                  parent="menu_horizontal_hr_ausencias_ctt_zk_checador"
+                  groups="hr_attendance.group_hr_attendance_user"
+                  action="hr_upload_file_time_clock_open_wizard_1"
+                  sequence="23"/>
+
+    </data>
+</odoo>

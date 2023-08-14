@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--Inherit Search View to Modify it-->
+        <record id="view_hr_empleado_asistencia_inherit_search_jomiloro" model="ir.ui.view">
+            <field name="name">view.hr.empleado.asistencia.inherit.search.jomiloro</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" string="Empleado" filter_domain="['|', '|', '|', ('work_email', 'ilike', self), ('pin', 'ilike', self), ('identification_id', 'ilike', self), ('name', 'ilike', self)]"/>
+                </xpath>
+                <xpath expr="//filter[@name='message_needaction']" position="after">
+                    <filter string="Sin identificación" name="sin_no_identificacion" domain="[('identification_id', '=', False)]"/>
+                    <filter string="Checador asignado" name="checador_asignado" domain="[('checador_id', '!=', False)]"/>
+                    <filter string="Checador no asignado" name="checador_no_asignado" domain="[('checador_id', '=', False)]"/>
+                    <filter string="Departamento no asignado" name="departamento_no_asignado" domain="[('department_id', '=', False)]"/>
+                    <filter string="Puesto de trabajo no asignado" name="puesto_trabajo_no_asignado" domain="[('job_id', '=', False)]"/>
+                </xpath>
+                <xpath expr="//filter[@name='group_job']" position="after">
+                    <filter name="group_checador" string="Checador" domain="[]" context="{'group_by': 'checador_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_hr_empleado_asistencia_inherit_form_jomiloro" model="ir.ui.view">
+            <field name="name">view.hr.empleado.asistencia.inherit.form.jomiloro</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Checador">
+                        <group>
+                            <group>
+                                <field name="fecha_empleo"/>
+                                <field name="checador_nombre" string="Nombre" required="True"/>
+                                <field name="apellido_checador" string="Apellido" required="True"/>
+                                <field name="fecha_despido"/>
+                            </group>
+                            <group>
+                                <field name="checador_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="ubicacion"/>
+                                <field name="grupo_checador_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="tipo_usuario_checador"/>
+                                <field name="estado_checador"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <!-- Inherit tree View to Modify it -->
+        <record id="view_hr_empleado_asistencia_tree_inherit_jomiloro" model="ir.ui.view">
+            <field name="name">view.hr.empleado.asistencia.tree.inherit.jomiloro</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="checador_id" optional="show"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="pin" string="ID" optional="hide"/>
+                    <field name="identification_id" string="Código" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit kanaban View to Modify it -->
+        <record id="view_empleado_asistencia_kanban_inherit" model="ir.ui.view">
+            <field name="name">view.empleado.asistencia.kanban.inherit.jomiloro</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="inside">
+                    <field name="identification_id"/>
+                </xpath>
+                <xpath expr="//div[@class='o_kanban_record_top']" position="before">
+                    <div t-if="record.identification_id.value">
+                        <b class="o_kanban_record_title">
+                            <field name="pin"/> / <field name="identification_id"/> / <field name="checador_id"/>
+                        </b>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Acciones de ventana para modulo hr_ausencias_ctt -->
+
+    <!-- Acción para Gerente Checador -->
+    <record id="hr_open_checador_asistencia" model="ir.actions.act_window">
+        <field name="name">Checadores</field>
+        <field name="res_model">hr.checador.asistencia</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+     <!-- Acción para Gerentes / Eventos checador -->
+    <record id="action_open_eventos_checador_1" model="ir.actions.act_window">
+        <field name="name">Eventos checador</field>
+        <field name="res_model">hr.eventos.checador</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Elementos de menú para modulo hr_ausencias_ctt -->
+
+    <!-- Menú horizontal ZK Checador -->
+    <menuitem id="menu_horizontal_hr_ausencias_ctt_zk_checador"
+              name="ZK Checador"
+              parent="hr_attendance.menu_hr_attendance_root"
+              sequence="25"
+              groups="hr_attendance.group_hr_attendance_user"/>
+    <!-- Menú vertical ZK Checador/Checador -->
+    <menuitem id="menu_vertical_checador"
+              name="Checador"
+              parent="menu_horizontal_hr_ausencias_ctt_zk_checador"
+              groups="hr_attendance.group_hr_attendance_user"
+              action="hr_open_checador_asistencia"
+              sequence="25"/>
+    <!-- Menú vertical ZK Checador/Eventos checador -->
+    <menuitem id="menu_vertical_recursos_eventos_checador_1"
+              name="Eventos checador"
+              parent="menu_horizontal_hr_ausencias_ctt_zk_checador"
+              groups="hr_attendance.group_hr_attendance_user"
+              action="action_open_eventos_checador_1"
+              sequence="20"/>
+</odoo>

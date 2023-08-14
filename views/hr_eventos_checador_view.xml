@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Busqueas y filtros para el modelo Eventos de checador (hr.eventos.checador) -->
+        <record id="view_hr_eventos_checador_search" model="ir.ui.view">
+            <field name="name">Búsquedas y filtros para Eventos checador</field>
+            <field name="model">hr.eventos.checador</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="numero_identificacion" string="Código ó NIP" filter_domain="['|', ('numero_identificacion', 'ilike', self), ('pin', 'ilike', self)]"/>
+                    <field name="name" string="Movimiento" filter_domain="[('name', 'ilike', self)]"/>
+                    <field name="empleado_id" string="Nombre del empleado" filter_domain="[('empleado_id', 'ilike', self)]"/>
+                    <field name="departamento_id" string="Departamento" filter_domain="[('departamento_id', 'ilike', self)]"/>
+                    <field name="empleado_categoria" string="Emp. categoría" filter_domain="[('empleado_categoria', 'ilike', self)]"/>
+                    <field name="pin" string="Identificador" filter_domain="[('pin', 'ilike', self)]" invisible="1"/>
+                    <filter name="esta_semana" string="Eventos esta semana" domain="[('fecha_hora', '&gt;=', (context_today() - datetime.timedelta(6)).strftime('%%Y-%%m-%%d') )]"/>
+                    <filter name="entrada" string="Entrada" domain="[('estado', '=', '0')]"/>
+                    <filter name="salida" string="Salida" domain="[('estado', '=', '1')]"/>
+                    <filter name="mis_eventos_checador" string="Mis eventos checador" domain="[('empleado_id.user_id', '=', uid)]" invisible="1"/>
+                    <separator/>
+                    <filter string="Archivado" name="inactivo" domain="[('active', '=', False)]"/>
+                    <group>
+                        <filter name="group_by_checador" string="Checador" context="{'group_by': 'checador_id'}"/>
+                        <filter name="group_by_departamento" string="Departamento" context="{'group_by': 'departamento_id'}"/>
+                        <filter name="group_by_estado" string="Estado" context="{'group_by': 'estado'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+         <!-- Formulario para el modelo Eventos de checador (hr.eventos.checador) -->
+        <record id="view_hr_eventos_checador_form" model="ir.ui.view">
+            <field name="name">Vista formulario para Eventos checador</field>
+            <field name="model">hr.eventos.checador</field>
+            <field name="arch" type="xml">
+                <form string="Eventos checador">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archivado" bg_color="bg-danger" attrs="{'invisible': [('active','=',True)]}"/>
+                        <field name="active" invisible="1"/>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="pin" string="ID del empleado"/>
+                                <field name="empleado_id" string="Nombre del empleado"/>
+                                <field name="fecha_hora"/>
+                                <field name="departamento_id"/>
+                                <field name="estado"/>
+                            </group>
+                            <group>
+                                <field name="registro"/>
+                                <field name="tipo_registro"/>
+                                <field name="checador_id"/>
+                                <field name="empleado_categoria"/>
+                                <field name="identificador_registro" readonly="1" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Listado para el modelo Eventos de checador (hr.eventos.checador) -->
+        <record id="view_hr_eventos_checador_tree" model="ir.ui.view">
+            <field name="name">Vista lista para Eventos checador</field>
+            <field name="model">hr.eventos.checador</field>
+            <field name="arch" type="xml">
+                <tree string="Listado de eventos checador">
+                    <field name="name" optional="hide"/>
+                    <field name="pin" string="ID del empleado"/>
+                    <field name="empleado_id" string="Nombre del empleado"/>
+                    <field name="departamento_id"/>
+                    <field name="fecha_hora"/>
+                    <field name="estado"/>
+                    <field name="registro"/>
+                    <field name="tipo_registro" optional="show"/>
+                    <field name="checador_id" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

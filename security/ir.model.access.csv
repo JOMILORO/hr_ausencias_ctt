@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_checador_asistencia_user,hr.checador.asistencia.user,model_hr_checador_asistencia,hr_attendance.group_hr_attendance_user,1,1,1,1
+access_hr_checador_asistencia_system_user,hr.checador.asistencia.system.user,model_hr_checador_asistencia,base.group_user,1,1,1,0
+access_hr_eventos_checador_user,hr.eventos.checador.user,model_hr_eventos_checador,hr_attendance.group_hr_attendance_user,1,1,1,1
+access_hr_eventos_checador_system_user,hr.eventos.checador.system.user,model_hr_eventos_checador,base.group_user,1,1,1,0
+access_hr_upload_file_time_clock_wizard_user,hr.upload.file.time.clock.wizard.user,model_hr_upload_file_time_clock_wizard,hr_attendance.group_hr_attendance_user,1,1,1,1
+access_hr_upload_file_time_clock_wizard_system_user,hr.upload.file.time.clock.wizard.system.user,model_hr_upload_file_time_clock_wizard,base.group_user,1,1,1,0
+access_hr_checador_asistencia_grupo_user,hr.checador.asistencia.grupo.user,model_hr_checador_asistencia_grupo,hr_attendance.group_hr_attendance_user,1,1,1,1
+access_hr_checador_asistencia_grupo_system_user,hr.checador.asistencia.grupo.system.user,model_hr_checador_asistencia_grupo,base.group_user,1,1,1,0
