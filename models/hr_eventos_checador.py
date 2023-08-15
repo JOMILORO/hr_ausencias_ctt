@@ -18,8 +18,7 @@ class EventosChecador(models.Model):
     departamento_id = fields.Many2one(
         comodel_name="hr.department",
         string="Departamento",
-        related="empleado_id.department_id",
-        store=True
+        required=False
     )
     estado = fields.Selection(string="Estado", selection=[
         ('0', 'Entrada'),
@@ -28,16 +27,15 @@ class EventosChecador(models.Model):
         ('3', 'Regreso'),
         ('4', 'Entrada T.E.'),
         ('5', 'Salida T.E.')
-    ], required=True)
+    ], required=True, default='0')
     fecha_hora = fields.Datetime(string="Fecha / Hora", required=True)
-    pin = fields.Char(string="Código NIP", required=False, store=True, index=True, related="empleado_id.pin")
+    pin = fields.Char(string="Código NIP", required=False, index=True)
     checador_id = fields.Many2one(
         comodel_name='hr.checador.asistencia',
         string='Checador',
         required=True)
-    tipo_registro = fields.Selection(string="Tipo de registro", selection=[('1', 'Normal')], required=False)
-    numero_identificacion = fields.Char(string="Código nómina", related="empleado_id.identification_id", store=True,
-                                        index=True)
+    tipo_registro = fields.Selection(string="Tipo de registro", selection=[('1', 'Normal')], required=False, default='1')
+    numero_identificacion = fields.Char(string="Código nómina", index=True)
     empleado_categoria = fields.Many2many(
         'hr.employee.category',
         'employee_category_rel',
@@ -46,7 +44,7 @@ class EventosChecador(models.Model):
     registro = fields.Selection(string="Registro", selection=[
         ('0', 'Clave'),
         ('1', 'Huella')
-    ], required=False, default='Huella')
+    ], required=False, default='1')
     identificador_registro = fields.Float(string="Identificador", required=False, index=True)
 
     @api.model
@@ -56,3 +54,18 @@ class EventosChecador(models.Model):
         correlativo = sequence_obj.next_by_code('secuencia.hr.eventos.checador')
         values['name'] = correlativo
         return super(EventosChecador, self).create(values)
+
+    @api.onchange('empleado_id')
+    def _onchance_departamento_id(self):
+        if self.empleado_id:
+            self.departamento_id = self.empleado_id.department_id
+
+    @api.onchange('empleado_id')
+    def _onchance_pin(self):
+        if self.empleado_id:
+            self.pin = self.empleado_id.pin
+
+    @api.onchange('empleado_id')
+    def _onchance_numero_identificacion(self):
+        if self.empleado_id:
+            self.numero_identificacion = self.empleado_id.identification_id

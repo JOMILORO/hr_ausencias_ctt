@@ -18,7 +18,7 @@ class EmpleadoAusencia(models.Model):
         ('alta', 'Alta'),
         ('eliminar', 'Eliminar'),
         ('pendiente', 'Pendiente'),
-    ], required=False)
+    ], required=False, default='agregar')
     fecha_despido = fields.Date(string="Fecha despido", required=False)
     fecha_empleo = fields.Date(string="Fecha de empleo", required=True)
     tipo_usuario_checador = fields.Selection(string='Tipo de usuario', selection=[

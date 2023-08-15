@@ -38,6 +38,8 @@ class HRUploadFileTimeClockWizard(models.TransientModel):
                     if empleado:
                         fecha_hora_registro = datetime.strptime(elements[1], "%Y-%m-%d %H:%M:%S")
                         identificador_registro = int(fecha_hora_registro.strftime("%Y%m%d%H%M%S")) + int(elements[0])
+                        departamento_id = empleado.department_id.id
+                        numero_identificacion = empleado.identification_id
                         evento = self.env['hr.eventos.checador'].search([
                             ('identificador_registro', '=', identificador_registro)
                         ], limit=1)
@@ -50,7 +52,9 @@ class HRUploadFileTimeClockWizard(models.TransientModel):
                                 'checador_id': checador_id,
                                 'tipo_registro': '1',
                                 'registro': elements[4],
-                                'identificador_registro': identificador_registro
+                                'identificador_registro': identificador_registro,
+                                'departamento_id': departamento_id,
+                                'numero_identificacion': numero_identificacion
                             })
 
     def read_file_from_binary(self, file):

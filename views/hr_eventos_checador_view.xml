@@ -43,16 +43,17 @@
                         </div>
                         <group>
                             <group>
-                                <field name="pin" string="ID del empleado"/>
-                                <field name="empleado_id" string="Nombre del empleado"/>
+                                <field name="pin" string="ID del empleado" readonly="1"/>
+                                <field name="empleado_id" string="Nombre del empleado" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="fecha_hora"/>
-                                <field name="departamento_id"/>
+                                <field name="departamento_id" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="estado"/>
+                                <field name="numero_identificacion" readonly="1"/>
                             </group>
                             <group>
                                 <field name="registro"/>
                                 <field name="tipo_registro"/>
-                                <field name="checador_id"/>
+                                <field name="checador_id" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="empleado_categoria"/>
                                 <field name="identificador_registro" readonly="1" invisible="1"/>
                             </group>
